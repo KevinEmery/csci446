@@ -1,0 +1,196 @@
+/* Welcome to Compass.
+ * In this file you should write your main styles. (or centralize your imports)
+ * Import this file using the following HTML or equivalent:
+ * <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css" /> */
+
+/* Information regarding a footer at the bottom of the screen was found here
+
+http://stackoverflow.com/questions/5516910/how-can-i-force-my-footer-to-stick-to-the-bottom-of-any-page-in-css
+
+While it didn't work for some people, it fits my needs here just fine */
+
+/*
+    SASS Requirements
+        Variables are used for both color and basic dimensions
+        Nesting is used widely throughout the project to make the css easier to read here. 
+            Particularly in header and foot
+        Partials *****
+        Mixins are used for the formatting on the links up top
+        Inheritance ******
+        Operators are used to format things relative to one another. 
+            See the footer and the column-width calculations
+*/
+
+@import "compass/reset";
+@import "blackjack";
+    
+// Variables declared to be used throughout.
+$header-background: #E0E0E0;
+$footer-font-size: 12px;
+$right-column-width: 30%;
+$column-padding: 4%;
+
+.customText {
+    font-family: blackjackregular; 
+    font-size: 30px;
+}
+
+
+// Mixin taken from the SASS example provided in the assignment
+@mixin border-radius($radius) {
+  -webkit-border-radius: $radius;
+     -moz-border-radius: $radius;
+      -ms-border-radius: $radius;
+       -o-border-radius: $radius;
+          border-radius: $radius;
+}
+
+// Defines the formatting for the header
+header {
+    
+    h1 {
+        @extend .customText;
+        color: #F00000;
+    }
+    
+    // Color should match throughout.
+    background: $header-background;
+    
+    // Padding around the edges
+    padding: 10px;
+    
+}
+
+// Defines the formatting for the nav bar
+// Nesting is used here, and mostly everywhere else as well, to make the formatting easier.
+nav {
+    
+    // Ensures the background goes all way across
+    width: 100%;
+    background: $header-background;
+    float: right;
+    
+    // Padding for aesthetic reasons
+    padding: 5px;
+    
+    // Floats the list to the right
+    ul {
+        float: right;
+    }
+    
+    // Makes the list appear horizontally instead of vertically
+    li {
+        display: inline-block;
+    }
+    
+    // Sets the formatting for each link
+    a {
+        // Each link appears as a block
+        font-size: 18px;
+        display: block;
+        @include border-radius(10px);
+        
+        // Red bolded text on white
+        color:#F00000;
+        background: #FFFFFF;
+        font-weight:bold;
+        
+        // No underline for the hyperlink
+        text-decoration:none;
+
+        margin: 10px;
+        padding: 5px;
+
+    }
+}
+
+// Formats the body of the website
+body {
+   
+    // Sets all the formatting for the right side of the page
+    .right {
+        
+        width: $right-column-width - $column-padding/2;
+        float: right;
+        padding: 10px;
+        
+        // Contains the login portion, and sets field formatting
+        #login {
+            height: 60px;
+            border-style: solid;
+            border-width: 1px;  
+            
+            input {
+                margin: 5px;   
+            }
+            
+            #username {
+                width: 50%;
+                float: left;
+            }
+            
+            #password {
+                width: 40%;
+            }
+            
+            #submit {
+                float: right;
+            }
+        }
+        
+        #catFacts {
+            
+            width: 80%;
+            margin: 10px;
+            align-content: center;
+            text-align: center;
+            background: $header-background;
+            @include border-radius(10px);
+            padding: 10px
+            
+        }
+        
+    }
+    
+    
+    // Sets the formatting for the left column. Because there isn't much there, it's fairly simple
+    .left {
+        
+        h1 {
+            @extend .customText;
+            color: #000000;
+        }
+        width: 100% - $right-column-width - $column-padding/2;
+        float: left;
+        padding: 10px;
+    }
+}
+
+
+
+footer {
+    
+    // Centers the text within the footer
+    p {
+        align-content:center;
+        vertical-align: center;
+        text-align:center;
+        float:auto;
+        line-height: 2 * $footer-font-size;
+    }   
+    
+    // Sets the background
+    background: $header-background;
+    
+    // Causes the footer to go all the way across
+    width: 100%;
+    
+    // Sets the font size and the footer height off the font size
+    height: 2 * $footer-font-size;
+    font-size: $footer-font-size;
+    
+    // Sets the position to always be at the bottom
+    position:absolute;
+    bottom:0;
+
+}

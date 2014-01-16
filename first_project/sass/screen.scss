@@ -1,0 +1,42 @@
+/* Welcome to Compass.
+ * In this file you should write your main styles. (or centralize your imports)
+ * Import this file using the following HTML or equivalent:
+ * <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css" /> */
+
+@import "compass/reset";
+
+
+$body-font-family: Verdana, Tahoma, Sans-Serif;
+$body-font-color: #333;
+$body-font-size: 15px;
+$body-font-weight: normal;
+$body-font-style: normal;
+
+@function emCalc($pxWidth) {
+  @return $pxWidth / $body-font-size * 1em;
+}
+
+@mixin setupFont(
+$family:$body-font-family, 
+$color:$body-font-color, 
+$size:$body-font-size, 
+$weight:$body-font-weight, 
+$style:$body-font-style
+){
+  font:{
+    family: $family;
+    color: $color;
+    size: emCalc($size);
+    weight: $weight;
+    style: $style;
+  }
+}
+
+body{
+  @include setupFont;
+  font-size: $body-font-size; 
+}
+
+header{
+   @include setupFont($size: $body-font-size*2, $color: lighten($body-font-color, 10%), $weight: bold);
+}
