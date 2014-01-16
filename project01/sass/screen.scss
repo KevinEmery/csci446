@@ -14,9 +14,9 @@ While it didn't work for some people, it fits my needs here just fine */
         Variables are used for both color and basic dimensions
         Nesting is used widely throughout the project to make the css easier to read here. 
             Particularly in header and foot
-        Partials *****
+        Partials are used for the custom fonts
         Mixins are used for the formatting on the links up top
-        Inheritance ******
+        Inheritance is used to use the custom font multiple times in different places with the same font size
         Operators are used to format things relative to one another. 
             See the footer and the column-width calculations
 */
@@ -138,6 +138,7 @@ body {
             }
         }
         
+        // Formats the cat facts box to be slightly smaller, but centered in the right column
         #catFacts {
             
             width: 80%;
