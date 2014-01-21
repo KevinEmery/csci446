@@ -1,9 +1,23 @@
 class Player
+  
+  attr_accessor :currentHealth
+
   def play_turn(warrior)
 
-    # If the space in front of the warrior is empty, walk forward
+    @currentHealth = warrior.health
+
+    # If the space in front of the warrior is empty, then we don't have an enemy
     if warrior.feel.empty?
-      warrior.walk!
+
+      # If the health is <= 6, then we will die in the next sludge fight. Better recover!
+      if @currentHealth <= 6
+        warrior.rest!
+
+      # We're fine, walk!
+      else
+        warrior.walk!
+
+      end
 
     #Otherwise, we should attack!
     else
