@@ -14,6 +14,7 @@ class Player
 
     set_health_information(warrior)
 
+    check_for_wizards(warrior)
     if (@currentHealth <= @@retreatHealthThreshold or @retreat == :true)
       retreat(warrior)
     else
@@ -74,12 +75,29 @@ class Player
   end
 
 
-  # NEED TO REWRITE MOVE TO ACCOUNT FOR NEW LOGIC IN USE
+  def check_for_wizards(warrior)
+
+
+
+
+    for item in warrior.look (@direction)
+      if (item.to_s == "nothing")
+        next
+      elsif (item.to_s == "Wizard")
+        @wizard = :true
+        break
+      else
+        break
+      end
+    end
+  end
 
   def move(warrior)
-    # This checks to ensure that the space in front of us is empty, and 
-    # to make sure we are not being attacked.
-    if (warrior.feel(@direction).empty?)
+
+    if @wizard == :true
+      @wizard = :falst
+      warrior.shoot! (@direction)
+    elsif (warrior.feel(@direction).empty?)
       warrior.walk! (@direction)
     elsif warrior.feel(@direction).captive? 
       warrior.rescue! (@direction)
@@ -102,6 +120,7 @@ class Player
       @previousHealth = warrior.health
       @retreat = :false
       @direction = :forward
+      @wizard = :false
     end
 
     # Set current health
