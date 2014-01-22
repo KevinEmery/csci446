@@ -3,23 +3,41 @@
 # => A function is used to move the player
 
 class Player
-  
-  #attr_accessor :currentHealth, :previousHealth, :hasTouchedBackWall, :@direction
 
   # Sets parameters for which to call retreat with
-  @@retreatHealthThreshold = 7
-  @@healedHealthThreshold = 17
+  @@retreatHealthThreshold = 9
+  @@healedHealthThreshold = 18
+  @@minumumArcherChallengeThreshold = 4
+  @@firstTime = :true
 
   def play_turn(warrior)
 
     set_health_information(warrior)
 
-    check_for_wizards(warrior)
-    if (@currentHealth <= @@retreatHealthThreshold or @retreat == :true)
+    if (@@firstTime == :true)
+      @@firstTime = :false
+      @retreat = :false
+      @direction = :forward
+      # pivot_direction(warrior)
+      @wizard = :false
+      @archer = :false
+      @actionTaken = :false
+  
+    end
+
+    if (warrior.health > @@minumumArcherChallengeThreshold)
+      check_for_ranged(warrior)
+    end
+
+    if (@actionTaken == :true)
+      @actionTaken = :false
+      return
+    elsif (@currentHealth <= @@retreatHealthThreshold or @retreat == :true)
       retreat(warrior)
     else
       move(warrior)
     end
+  
   end
 
 
@@ -50,6 +68,11 @@ class Player
   # Creates a defined retreat behavior for the warrior
   def retreat(warrior)
 
+    if (warrior.look(@direction)[0].to_s == "Archer" && warrior.health > @@minumumArcherChallengeThreshold)
+      warrior.attack! (@direction)
+      return
+    end
+
     if (@retreat == :false) 
       toggle_direction()
       @retreat = :true
@@ -75,21 +98,46 @@ class Player
   end
 
 
-  def check_for_wizards(warrior)
+  def check_for_ranged(warrior)
+    for item in warrior.look (@direction)
+      if (item.to_s == "nothing")
+        next
+      elsif (item.to_s == "Wizard")
+        @wizard = :true
+        return
+      elsif (item.to_s == "Archer")
+        @archer = :true
+        return
+      else
+        break
+      end
+    end
 
-
-
+    toggle_direction()
 
     for item in warrior.look (@direction)
       if (item.to_s == "nothing")
         next
       elsif (item.to_s == "Wizard")
         @wizard = :true
-        break
+        toggle_direction()
+        pivot_direction(warrior)
+        @actionTaken = :true;
+        return
+      elsif (item.to_s == "Archer")
+        @archer = :true
+        toggle_direction()
+        pivot_direction(warrior)
+        @actionTaken = :true;
+        return
       else
-        break
+        toggle_direction()
+        return
       end
     end
+
+    toggle_direction()
+
   end
 
   def move(warrior)
@@ -118,9 +166,6 @@ class Player
       @previousHealth = @currentHealth
     else
       @previousHealth = warrior.health
-      @retreat = :false
-      @direction = :forward
-      @wizard = :false
     end
 
     # Set current health
