@@ -1,14 +1,18 @@
 #Comments for grading purposes
 # => Instance Variables are used to store health and direction info, as well as store several states
-# => Class variables are used to set constants for certain items, seen below
-# => Fucntions are used below to modularize the play turn function
+# => Class variables are used to set flags for the first time play_turn is called
+# => Constants are used to set parameters
+# => Arrays are used in the check_for_ranged function, when I iterate through the warrior.look array with a for loop
+# => Hashes are not used in this project
+# => Fucntions are used below to modularize the play turn function, for pretty much anything
+# => Comments can be seen below (or above, or to the left and I guess right of this parenthetical statement) See?
+
+# Sets parameters for calling retreat
+RETREAT_HEALTH_THRESHOLD = 9
+HEALED_HEALTH_THRESHOLD = 18
 
 class Player
-
-  # Sets parameters for which to call retreat with
-  RETREAT_HEALTH_THRESHOLD = 9
-  @@healedHealthThreshold = 18
-
+  
   # If health is below this, don't touch the archer
   @@minumumArcherChallengeThreshold = 4
 
@@ -98,7 +102,7 @@ class Player
 
     # This means something is in front of you (hopefully a wall?) or you were not attacked
     # Time to rest as needed
-    elsif (@currentHealth <= @@healedHealthThreshold)
+    elsif (@currentHealth <= HEALED_HEALTH_THRESHOLD)
       warrior.rest!
 
     # This means you're all healed up and ready to go
