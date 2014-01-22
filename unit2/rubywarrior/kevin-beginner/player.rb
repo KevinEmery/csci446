@@ -7,7 +7,7 @@ class Player
   #attr_accessor :currentHealth, :previousHealth, :hasTouchedBackWall, :@direction
 
   # Sets parameters for which to call retreat with
-  @@retreatHealthThreshold = 9
+  @@retreatHealthThreshold = 7
   @@healedHealthThreshold = 17
 
   def play_turn(warrior)
