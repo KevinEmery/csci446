@@ -34,6 +34,18 @@ class Player
     end
   end
 
+  def pivot_direction(warrior)
+    if @direction == :backward
+      @direction = :forward
+      warrior.pivot! (:forward)
+    elsif @direction == :forward
+      @direction = :backward
+      warrior.pivot!
+    end
+  end
+
+
+
   # Creates a defined retreat behavior for the warrior
   def retreat(warrior)
 
@@ -69,14 +81,10 @@ class Player
     # to make sure we are not being attacked.
     if (warrior.feel(@direction).empty?)
       warrior.walk! (@direction)
-
-    # If we get to here, either we are not empty in front of us or are being attacked, 
-    # and we need to attack
     elsif warrior.feel(@direction).captive? 
       warrior.rescue! (@direction)
     elsif warrior.feel(@direction).wall?
-      toggle_direction()
-      warrior.walk! (@direction)
+      pivot_direction(warrior)
     else
       warrior.attack! (@direction)
           
@@ -93,7 +101,7 @@ class Player
     else
       @previousHealth = warrior.health
       @retreat = :false
-      @direction = :backward
+      @direction = :forward
     end
 
     # Set current health
