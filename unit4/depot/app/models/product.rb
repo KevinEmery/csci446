@@ -1,5 +1,7 @@
 class Product < ActiveRecord::Base
   
+  default_scope :order => 'title'
+  
   # Validates the existence of the title, description, and url
   validates :title, :description, :image_url, :presence => true
   
