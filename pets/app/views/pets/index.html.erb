@@ -1,0 +1,34 @@
+<h1>Listing Pets</h1>
+
+
+<table>
+<% @pets.each do |pet| %>
+  <tr class="<%= cycle('list_line_odd', 'list_line_even') %>">
+    
+    <td>
+      <%= image_tag(pet.image_url, :class => 'list_image') %>
+    </td>
+    
+    <td class="list_description">
+      <dl>
+        <dt><%= pet.name %></dt>
+        <dd><%= truncate(strip_tags(pet.description), :length => 80) %></dd>
+        <dd>Breed: <%= pet.breed %></dd>
+      </dl>
+    </td>
+    
+    <td class="list_actions">
+      <%= link_to 'Show' , pet %><br/>
+      <%= link_to 'Edit' , edit_pet_path(pet) %><br/>
+      <%= link_to 'Destroy' , pet, :confirm => 'Are you sure?' , :method => :delete %>
+      
+    
+    </td>
+  </tr>
+  <% end %>
+</table>
+
+
+<br />
+
+<%= link_to 'New Product', new_pet_path %>
